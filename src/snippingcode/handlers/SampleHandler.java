@@ -13,6 +13,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.json.JSONException;
 
 import snippingcode.GUI.ListCodeSelection;
 import snippingcode.GUI.LoginGUI;
@@ -44,16 +45,18 @@ public class SampleHandler extends AbstractHandler {
 			UserDomain.parseString();
 			gUILogin.Run(true);
 		}
+		
 		if (!UserDomain.getUsername().equals("") && loginctr.checkCache()) {
 			UserDomain.clearList();
 			try {
 				getCodeHttp.getCode(UserDomain.getUsername() , UserDomain.getPassword());
 			} catch (ClientProtocolException e) {
 				System.out.println(e.toString());
-			} catch (URISyntaxException e) {
-				System.out.println(e.toString());
 			} catch (IOException e) {
 				System.out.println(e.toString());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			listCode.Run(true);
 			System.out.println("Done loading");

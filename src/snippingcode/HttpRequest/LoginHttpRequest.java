@@ -34,6 +34,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.omg.CORBA.NameValuePair;
 
@@ -46,40 +47,51 @@ public class LoginHttpRequest {
 
 	private createJsonoObject jsonCreate = new createJsonoObject();
 	private parseJsonObject jsonParse = new parseJsonObject();
-	private String url = "http://localhost:8080/CodeSnipping/registration/login";
+	private final String urlTarget = "http://localhost:8080/CodeSnipping/registration/eclipselogin";
+	URL url = null;
+	String urlParameters = "";
 
-	public LoginHttpRequest() {
+	public HttpURLConnection configConnection() throws IOException {
+		HttpURLConnection connection = null;
+		connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Content-Type",
+				"application/x-www-form-urlencoded");
+		connection.setRequestProperty("Content-Length",
+				Integer.toString(urlParameters.getBytes().length));
+		connection.setRequestProperty("Content-Language", "en-US");
+
+		connection.setUseCaches(false);
+		connection.setDoOutput(true);
+		return connection;
 	}
 
-	public JSONObject loginHttpRequest(String username, String password)
-			throws URISyntaxException, ClientProtocolException, IOException {
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response;
-		JSONObject json = jsonCreate.createLoginJsonObject(username, password);
-		URI urls = new URI(url);
-		HttpPost post = new HttpPost(urls);
-		StringEntity se = new StringEntity(json.toString());
-		se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-		post.setEntity(se);
-		response = client.execute(post);
-		JSONObject returnObject = parseInputStream(response);
-		UserDomain.setUsername(username);
-		UserDomain.setPassword(password);
-		if (returnObject != null)
-			return returnObject;
-		return null;
-	}
+	public JSONObject loginHttpRequest(String username, String pass)
+			throws IOException, JSONException {
 
-	private JSONObject parseInputStream(HttpResponse response) {
+		urlParameters = "username=" + username + "&password=" + pass;
+		url = new URL(urlTarget);
 
-		try {
-			JSONObject JsonObject = new JSONObject(
-					EntityUtils.toString(response.getEntity()));
-			return JsonObject;
-		} catch (Exception e) {
-			System.out.println("error " + e.toString());
+		HttpURLConnection connection = configConnection();
+
+		// Send request
+		DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+		wr.writeBytes(urlParameters);
+		wr.close();
+
+		// Get Response
+		InputStream is = connection.getInputStream();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+		StringBuilder response = new StringBuilder();
+
+		String line;
+		while ((line = rd.readLine()) != null) {
+			response.append(line);
+			response.append('\r');
 		}
-		return null;
+		rd.close();
+		return new JSONObject(response.toString());
 	}
+
 
 }
