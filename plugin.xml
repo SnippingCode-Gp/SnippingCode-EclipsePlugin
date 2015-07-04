@@ -3,61 +3,53 @@
 <plugin>
 
    <extension
-         point="org.eclipse.ui.commands">
-      <category
-            name="Sample Category"
-            id="SnippingCode.commands.category">
-      </category>
-      <command
-            name="Login"
-            categoryId="SnippingCode.commands.category"
-            id="SnippingCode.commands.sampleCommand">
-      </command>
-   </extension>
-   
-   
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            commandId="SnippingCode.commands.sampleCommand"
-            class="snippingcode.handlers.SampleHandler">
-      </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="SnippingCode.commands.sampleCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            sequence="M1+6"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         point="org.eclipse.ui.actionSets">
+         
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="GUITest.actionSet">
          <menu
-               label="Snipping Code"
-               mnemonic="M"
-               id="SnippingCode.menus.sampleMenu">
-            <command
-                  commandId="SnippingCode.commands.sampleCommand"
-                  mnemonic="S"
-                  id="SnippingCode.menus.sampleCommand">
-            </command>
+               label="Snipping &amp;Code"
+               id="sampleMenu">
+            <separator
+                  name="login">
+            </separator>
+            <separator
+                  name="signUp">
+            </separator>
+            <separator
+                  name="import">
+            </separator>
+            <separator
+                  name="export">
+            </separator>
          </menu>
-      </menuContribution>
-      <menuContribution
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-         <toolbar
-               id="SnippingCode.toolbars.sampleToolbar">
-            <command
-                  commandId="SnippingCode.commands.sampleCommand"
-                  icon="icons/sample.gif"
-                  id="SnippingCode.toolbars.sampleCommand">
-            </command>
-         </toolbar>
-      </menuContribution>
+		<action
+		       label="&amp;Login"
+		       class="guitest.actions.SampleAction"
+		       menubarPath="sampleMenu/login"
+		       id="login">
+		 </action>
+		<action
+		       label="&amp;Sign Up"
+		       class="guitest.actions.SampleAction"
+		       menubarPath="sampleMenu/signUp"
+		       id="signUp">
+		 </action>
+		<action
+		       label="&amp;Import Code"
+		       class="guitest.actions.SampleAction"
+		       menubarPath="sampleMenu/import"
+		       id="import">
+		 </action>
+		<action
+		       label="&amp;Export Code"
+		       class="guitest.actions.SampleAction"
+		       menubarPath="sampleMenu/export"
+		       id="export">
+		</action>
+      </actionSet>
    </extension>
- 
+
 </plugin>

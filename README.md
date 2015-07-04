@@ -1,7 +1,12 @@
-# SnippingCode-EclipsePlugin
-Snipping Code is open project which you can to pull your Code on your File directory and use it in your project without copy and paste
+# SnippingCode-EclipsePluginWithGUI
+this project tests the GUI when it is included in a plug-in
 
-# for the Client and Server Porject
-* [Client](https://github.com/SnippingCode-Gp/SnippingCode-Client#snippingcode-client)
-* [Server](https://github.com/SnippingCode-Gp/SnippingCode-Server)
+
+## Notes:
+1. this project isn't done yet, it's a graduation project.
+2. you will need to include: 
+	* org.eclipse.core.runtime-3.1.0.jar
+	* org.eclipse.core.resources.jar
+	* SnippingCode-Parsing.jar from here: "https://github.com/SnippingCode-Gp/SnippingCode-parsing"
+	* GUI.jar from here: "https://github.com/SnippingCode-Gp/SnippingCodePluginGUI"
 
