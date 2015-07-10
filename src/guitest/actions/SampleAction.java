@@ -46,6 +46,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		login = new Login();
 		signUp = new SignUp();
 		importCode = new ImportCode();
+		user = login.getUser();
 	}
 
 	/**
@@ -59,25 +60,41 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 
 		switch (action.getId()) {
 		case "login":
-			login.run();
-
+		  if(user == null) user = login.getUser();
+		  if(user == null) user = signUp.getUser();
+		  if(user == null) login.run();
+		  else login.refresh();
 			break;
 		case "signUp":
-			signUp.run();
+		  if(user == null) user = login.getUser();
+		  if(user == null) user = signUp.getUser();
+		  if(user == null) signUp.run();
 			break;
 		case "import":
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			IPath file = workspace.getRoot().getLocation();
-			importCode.run(file.toString());
+      if(user == null) user = login.getUser();
+      if(user == null) user = signUp.getUser();
+      if(user == null) {
+        login.run();
+      } else {
+  			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+  			IPath file = workspace.getRoot().getLocation();
+  			importCode.run(file.toString());
+		  }
 			break;
 		case "export":
-			IWorkspace workspace1 = ResourcesPlugin.getWorkspace();
-			IPath file1 = workspace1.getRoot().getLocation();
-			user = login.getUser();
-			if (exportCode == null)
-				exportCode = new ExportCode();
-			exportCode.run(file1.toString(), user.get("username"),
-					user.get("password"));
+		  if(user == null) user = login.getUser();
+		  if(user == null) user = signUp.getUser();
+		  if(user == null) {
+        login.run();
+      } else {
+        IWorkspace workspace1 = ResourcesPlugin.getWorkspace();
+        IPath file1 = workspace1.getRoot().getLocation();
+        user = login.getUser();
+        if (exportCode == null)
+          exportCode = new ExportCode();
+			    exportCode.run(file1.toString(), user.get("username"),
+			        user.get("password"));
+      }
 			break;
 		default:
 			break;

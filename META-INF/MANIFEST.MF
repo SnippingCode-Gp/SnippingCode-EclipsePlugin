@@ -8,7 +8,7 @@ Bundle-ClassPath: .,
  libs/java-json.jar,
  libs/org.eclipse.core.resources.jar,
  libs/org.eclipse.core.runtime-3.1.0.jar,
- libs/parsing.jar
+ libs/Parsing.jar
 Bundle-Activator: eclipsegui.Activator
 Export-Package: eclipsegui,
  guitest,
